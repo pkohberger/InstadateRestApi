@@ -1,9 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using InstadateRestApi.Data;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.EntityFrameworkCore;
+using System;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -29,6 +28,9 @@ namespace InstadateRestApi
         {
             // Add framework services.
             services.AddMvc();
+
+            String connection = "Data Source=mathalumni.com;Initial Catalog=Instadate;Persist Security Info=True;User ID=mathalum;Password=!Jpk789242424";
+            services.AddDbContext<InstadateRestApiContext>(options => options.UseSqlServer(connection));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
