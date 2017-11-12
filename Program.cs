@@ -1,8 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using Microsoft.Extensions.DependencyInjection;
+using InstadateRestApi.Data;
 using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
+using System;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 

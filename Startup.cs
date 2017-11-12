@@ -31,6 +31,11 @@ namespace InstadateRestApi
 
             String connection = "Data Source=mathalumni.com;Initial Catalog=Instadate;Persist Security Info=True;User ID=mathalum;Password=!Jpk789242424";
             services.AddDbContext<InstadateRestApiContext>(options => options.UseSqlServer(connection));
+
+            var serviceProvider = services.BuildServiceProvider();
+
+            var context = serviceProvider.GetRequiredService<InstadateRestApiContext>();
+            DbInitializer.Initialize(context);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
