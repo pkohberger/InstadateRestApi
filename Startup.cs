@@ -29,7 +29,7 @@ namespace InstadateRestApi
             // Add framework services.
             services.AddMvc();
 
-            String connection = "Data Source=mathalumni.com;Initial Catalog=Instadate;Persist Security Info=True;User ID=mathalum;Password=!Jpk789242424";
+            String connection = Configuration.GetConnectionString("LiveConnection");
             services.AddDbContext<InstadateRestApiContext>(options => options.UseSqlServer(connection));
 
             var serviceProvider = services.BuildServiceProvider();
