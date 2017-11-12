@@ -1,7 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using InstadateRestApi.Data;
+using InstadateRestApi.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace InstadateRestApi.Controllers
@@ -9,6 +8,13 @@ namespace InstadateRestApi.Controllers
     [Route("api/[controller]")]
     public class UsersController : Controller
     {
+        private readonly InstadateRestApiContext _context;
+
+        public UsersController(InstadateRestApiContext context)
+        {
+            _context = context;
+        }
+
         // GET api/users
         [HttpGet]
         public IEnumerable<string> Get()
@@ -20,6 +26,9 @@ namespace InstadateRestApi.Controllers
         [HttpGet("{id}")]
         public string Get(int id)
         {
+            User user = new User { QbId = id, Portrait = "/portaits/"+id.ToString()+".jpg" };
+            _context.User.Add(user);
+            _context.SaveChanges();
             return "user";
         }
 
