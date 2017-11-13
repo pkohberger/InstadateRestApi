@@ -9,7 +9,9 @@ namespace InstadateRestApi.Data
         {
         }
 
-        public DbSet<User> User { get; set; }
+        public DbSet<User> Users { get; set; }
+
+        public DbSet<FilePath> FilePaths { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

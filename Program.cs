@@ -1,7 +1,4 @@
-﻿using Microsoft.Extensions.DependencyInjection;
-using InstadateRestApi.Data;
-using System.IO;
-using System;
+﻿using System.IO;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 

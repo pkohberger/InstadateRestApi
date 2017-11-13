@@ -10,7 +10,7 @@ namespace InstadateRestApi.Data
         {
             context.Database.EnsureCreated();
 
-            if (context.User.Any())
+            if (context.Users.Any() || context.FilePaths.Any())
             {
                 return;
             }

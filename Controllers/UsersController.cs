@@ -2,6 +2,8 @@
 using InstadateRestApi.Data;
 using InstadateRestApi.Models;
 using Microsoft.AspNetCore.Mvc;
+using System;
+using Microsoft.Extensions.Logging;
 
 namespace InstadateRestApi.Controllers
 {
@@ -26,16 +28,25 @@ namespace InstadateRestApi.Controllers
         [HttpGet("{id}")]
         public string Get(int id)
         {
-            User user = new User { QbId = id, Portrait = "/portaits/"+id.ToString()+".jpg" };
-            _context.User.Add(user);
-            _context.SaveChanges();
             return "user";
         }
 
         // POST api/users
         [HttpPost]
-        public void Post([FromBody]string value)
+        public void Post([FromBody]User user)
         {
+            if (user != null)
+            {
+                try
+                {
+                    _context.Users.Add(user);
+                    _context.SaveChanges();
+                }
+                catch (Exception ex)
+                {
+                    String message = ex.Message;
+                }
+            }
         }
 
         // PUT api/users/5
