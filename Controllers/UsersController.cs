@@ -3,7 +3,7 @@ using InstadateRestApi.Data;
 using InstadateRestApi.Models;
 using Microsoft.AspNetCore.Mvc;
 using System;
-using Microsoft.Extensions.Logging;
+using System.IO;
 
 namespace InstadateRestApi.Controllers
 {
@@ -33,8 +33,43 @@ namespace InstadateRestApi.Controllers
 
         // POST api/users
         [HttpPost]
-        public void Post([FromBody]User user)
+        public void Post()
         {
+            /**
+             * Convert Post Keys to Dictionary
+             */
+            Dictionary<string, string> form = new Dictionary<string, string>();
+            foreach (string f in Request.Form.Keys)
+            {
+                form.Add(f, Request.Form[f]);
+            }
+
+            /**
+             * Create Baseline User
+             */
+            User user = new User();
+            user.QbID = Convert.ToInt32(form["QbID"]);
+            user.AccessToken = form["AccessToken"];
+            user.Birthday = form["Birthday"];
+            user.Title = form["Title"];
+            user.About = form["About"];
+            user.Location = form["Location"];
+            user.FilePaths = new List<FilePath>();
+
+            /**
+             * Get image(s) from Post
+             */
+            if (Request.Form.Files.Count > 0)
+            {
+                string fileName = Guid.NewGuid().ToString();
+                var file = Request.Form.Files[0];
+                user.FilePaths.Add(new FilePath
+                {
+                    FileName = fileName,
+                    FileType = Path.GetExtension(file.FileName)
+                });
+            }
+
             if (user != null)
             {
                 try
