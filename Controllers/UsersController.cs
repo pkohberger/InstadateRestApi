@@ -4,6 +4,7 @@ using InstadateRestApi.Models;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.IO;
+using System.ComponentModel.DataAnnotations;
 
 namespace InstadateRestApi.Controllers
 {
@@ -45,6 +46,16 @@ namespace InstadateRestApi.Controllers
             }
 
             /**
+             * @Todo Add More Validation
+             * @Author Phil Kohberger
+             * Simple validation
+             */
+            if (form.Count < 6 || Request.Form.Files.Count <= 0)
+            {
+                throw new ValidationException("There is missing form data.");
+            }
+
+            /**
              * Create Baseline User
              */
             User user = new User();
@@ -63,10 +74,26 @@ namespace InstadateRestApi.Controllers
             {
                 string fileName = Guid.NewGuid().ToString();
                 var file = Request.Form.Files[0];
+                string fileExtension = Path.GetExtension(file.FileName);
+
+                string pathOld = Path.Combine(
+                    Directory.GetCurrentDirectory(), "Uploads",file.FileName);
+
+                using (var stream = new FileStream(pathOld, FileMode.Create))
+                {
+                    file.CopyTo(stream);
+                }
+
+                string pathNew = Path.Combine(
+                    Directory.GetCurrentDirectory(), "Uploads", fileName + fileExtension);
+
+                System.IO.File.Move(pathOld, pathNew);
+
+
                 user.FilePaths.Add(new FilePath
                 {
                     FileName = fileName,
-                    FileType = Path.GetExtension(file.FileName)
+                    FileType = fileExtension
                 });
             }
 
