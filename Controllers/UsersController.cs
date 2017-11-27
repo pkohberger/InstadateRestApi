@@ -1,10 +1,12 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using InstadateRestApi.Data;
 using InstadateRestApi.Models;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.IO;
 using System.ComponentModel.DataAnnotations;
+using Microsoft.EntityFrameworkCore;
 
 namespace InstadateRestApi.Controllers
 {
@@ -27,9 +29,26 @@ namespace InstadateRestApi.Controllers
 
         // GET api/users/5
         [HttpGet("{id}")]
-        public string Get(int id)
+        public List<User> Get(int id)
         {
-            return "user";
+            using (var context = _context)
+            {
+                return context.Users
+                    .Where(user => user.QbID == id)
+                    .Select(user => new User
+                    {
+                        ID = user.ID,
+                        QbID = user.QbID,
+                        FilePaths = user.FilePaths.Select(filePaths => filePaths).ToList(),
+                        AccessToken = user.AccessToken,
+                        Birthday = user.Birthday,
+                        Title = user.Title,
+                        About = user.About,
+                        Location = user.Location,
+                        CreateDate = user.CreateDate,
+                    })
+                    .ToList();
+            }
         }
 
         // POST api/users
@@ -88,7 +107,6 @@ namespace InstadateRestApi.Controllers
                     Directory.GetCurrentDirectory(), "Uploads", fileName + fileExtension);
 
                 System.IO.File.Move(pathOld, pathNew);
-
 
                 user.FilePaths.Add(new FilePath
                 {
