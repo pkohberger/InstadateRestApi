@@ -53,8 +53,20 @@ namespace InstadateRestApi
             app.UseStaticFiles(new StaticFileOptions()
             {
                 FileProvider = new PhysicalFileProvider(
-                    Path.Combine(Directory.GetCurrentDirectory(), @"Uploads")),
-                RequestPath = new PathString("/Uploads")
+                    Path.Combine(Directory.GetCurrentDirectory(), @"Images/Uploads")),
+                RequestPath = new PathString("/Images/Uploads")
+            });
+            app.UseStaticFiles(new StaticFileOptions()
+            {
+                FileProvider = new PhysicalFileProvider(
+                    Path.Combine(Directory.GetCurrentDirectory(), @"Images/Portraits")),
+                RequestPath = new PathString("/Images/Portraits")
+            });
+            app.UseStaticFiles(new StaticFileOptions()
+            {
+                FileProvider = new PhysicalFileProvider(
+                    Path.Combine(Directory.GetCurrentDirectory(), @"Images/Thumbnails")),
+                RequestPath = new PathString("/Images/Thumbnails")
             });
         }
     }

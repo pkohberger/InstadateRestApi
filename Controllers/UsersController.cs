@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using System;
 using System.IO;
 using System.ComponentModel.DataAnnotations;
-using Microsoft.EntityFrameworkCore;
+using InstadateRestApi.Helpers;
 
 namespace InstadateRestApi.Controllers
 {
@@ -95,18 +95,35 @@ namespace InstadateRestApi.Controllers
                 var file = Request.Form.Files[0];
                 string fileExtension = Path.GetExtension(file.FileName);
 
-                string pathOld = Path.Combine(
-                    Directory.GetCurrentDirectory(), "Uploads",file.FileName);
+                string path = Path.Combine(
+                    Directory.GetCurrentDirectory(), "Images/Uploads", fileName + fileExtension);
 
-                using (var stream = new FileStream(pathOld, FileMode.Create))
+                using (var stream = new FileStream(path, FileMode.Create))
                 {
                     file.CopyTo(stream);
                 }
 
-                string pathNew = Path.Combine(
-                    Directory.GetCurrentDirectory(), "Uploads", fileName + fileExtension);
+                Utils.ResizeImage(
+                    Path.Combine(Directory.GetCurrentDirectory(), "Images/Uploads"),
+                    fileName + fileExtension,
+                    Path.Combine(Directory.GetCurrentDirectory(), "Images/Thumbnails"),
+                    fileName + fileExtension,
+                    100,
+                    100,
+                    true,
+                    true
+                );
 
-                System.IO.File.Move(pathOld, pathNew);
+                Utils.ResizeImage(
+                    Path.Combine(Directory.GetCurrentDirectory(), "Images/Uploads"),
+                    fileName + fileExtension,
+                    Path.Combine(Directory.GetCurrentDirectory(), "Images/Portraits"),
+                    fileName + fileExtension,
+                    300,
+                    300,
+                    true,
+                    true
+                );
 
                 user.FilePaths.Add(new FilePath
                 {

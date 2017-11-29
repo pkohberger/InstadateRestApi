@@ -6,7 +6,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Uploads\" />
+    <Folder Include="Images\Thumbnails\" />
+    <Folder Include="Images\Portraits\" />
+    <Folder Include="Images\Uploads\" />
     <Folder Include="wwwroot\" />
   </ItemGroup>
 
